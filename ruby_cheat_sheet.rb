@@ -1,3 +1,223 @@
+# if statement. end is compulsory
+color = "red"
+if color == "red" then # then is optional
+	puts( "#{color} is a nice color")
+end
+
+# then is compulsory in single line if-statement
+if color != "black" then puts ("#{color} is not black") end
+
+# LOCAL VARIABLE GLOBAL VARIABLE
+localvar = 1
+$globalvar = "hello"
+
+def amethod
+	localvar = 35
+	puts( "inside amethod localvar: #{localvar}")
+	puts( "inside amethod $globalvar: #{$globalvar}")
+end
+
+def bmethod
+	localvar = 666
+	$globalvar = "buon jor"
+	puts( "inside bmethod localvar: #{localvar}")
+	puts( "inside bmethod $globalvar: #{$globalvar}")
+end
+
+puts( "inside main localvar: #{localvar}")
+puts( "inside main globalvar: #{$globalvar}")
+
+# every piece of data is an object in ruby
+# even operators like +, -, * are methods. 
+class Dog
+	def set_name( aName ) # set_name is instance method
+		@myName = aName    # assigning aName value to @myName instance variable
+	end
+
+	def get_name
+		return @myName
+	end
+
+	def talk
+		return "woof!"
+	end
+end
+
+pluto = Dog.new
+pluto.set_name( "pluto" )
+bruno = Dog.new
+bruno.set_name( "Bruno the bulldog" )
+puts( "Calling talk instance method: " + bruno.talk )
+
+# you cannot access @myname variable directly, you would 
+# normally use method that returns the @myname as return value
+# you are using the code inside the class to access the data 
+# within the class
+puts( "Bruno's name is #{bruno.get_name}")
+# There are clever tricks to work around this restriction and 
+# access data anyways
+
+# if you call an instance method that doesn't exist, you will get nil as output
+#puts(bruno.drive_car)
+
+# to intialize instance variable, you will
+# include the code inside initialize method
+# new method creates an object and calls initialize method, if it exists
+# new method is a constructor
+# to_s is ruby equivalent of to_string method
+# it returns string representation of object
+class Student
+	def initialize( sName, sAge, sId )
+		@name = sName
+		@age = sAge
+		@id = sId
+	end
+
+	def to_s
+		"Student details: Name: #{@name}\nage: #{@age}\nID:#{@id}\n"
+	end
+end
+
+stud1 = Student.new( "James Bond", 35, 007 )
+puts( stud1 )
+stud2 = Student.new( "Mario", 50, 123 )
+puts( stud2 )
+
+
+# class with setters and getters
+class Car
+	def initialize( model, brand, year )
+		@model = model
+		@brand = brand
+		@year = year
+	end
+
+	def set_model( model )
+		@model = model
+	end
+
+	def set_brand( brand )
+		@brand = brand
+	end
+
+	def set_year( year )
+		@year = year
+	end
+
+	def get_model
+		return @model
+	end
+
+	def get_year
+		return @year
+	end
+	def get_brand
+		return @brand
+	end
+end
+
+# Parent and child class
+# in inheritance, if child class doesn't have an intialize method
+# ruby goes up the hierarchy prints the first intialize it encounters.
+#  if there is a intialize in child and if parent class's initialze has to be called, you have to specify super as
+# the first line. otherise superclass initialize will not be called automatically
+
+class Animal
+	def initialize( name, legs )
+		puts( "inside animal initialize" )
+		@name = name
+		@legs = legs
+	end
+
+	def talk
+		"I am an animal"
+	end
+end
+
+class Cat < Animal
+	def talk
+		"meow"
+	end
+end
+
+class Mouse < Animal
+	def initialize( name, food )
+		super( name, 4 )
+		puts( "inside mouse initialize" )
+		@food = food
+	end
+
+	def eat
+		puts( "i eat #{@food}")
+	end
+end
+
+
+Tom = Cat.new( "Tom", 4 )
+Tom.talk
+
+Jerry = Mouse.new( "Jerry", "cheese" )
+Jerry.talk
+Jerry.eat
+
+# SHORT WAY OF SPECIFYING GETTERS AND SETTERS
+# no need of obj.set_name( "objname" ) 
+# use obj.name = "objname"
+# however if you write your own get and set method
+# you can perform extra processing
+
+class Employee
+	attr_reader :name
+	attr_writer :name
+	attr_reader :age, :company, :salary
+	attr_writer :age, :company, :salary
+	def initialize( name, age, company, salary )
+		@name = name
+		@age = age
+		@company = company
+		@salary = salary
+	end
+end
+
+emp = Employee.new("Jerry Yang", 32, "Yahoo", 500000 )
+puts( "Name: #{emp.name}" )
+emp.name = "Marissa"
+puts( "Name: #{emp.name}" )
+
+
+# CLASS VARIABLES
+# common to all instances of class
+
+# sTRING METHODS
+=begin
+length
+reverse!
+upccase
+capitalize
+swapcase
+downcase
+insert(pos, character)
+squeeze
+split
+=end
+
+# RANGES
+# creates a range object
+# to get an array, use to_a
+# is not defined for floating points
+# be careful while using ranges
+# range = ('abc'..'def') produces around 2000 values
+
+a = (1...10)
+b = (-10..-1)
+c = (-10..2)
+d = ('a'..'z')
+puts( "a is of type: #{a.class}" )
+puts( a.to_a.to_s)
+puts( "b: #{b}" )
+puts( "c: #{c}" )
+puts( "d: #{d}" )
+
 #ARRAY METHODS
 
 
@@ -951,6 +1171,7 @@ end
 
 =end
 #REGEX
+=begin
 p( /abc/ =~ 'abc')
 p( /abc/ =~ 'xyzabczyzabc')
 p( /abc/ =~ 'xycab')
@@ -994,7 +1215,7 @@ File.foreach( 'regex1.rb' ){ |line|
 		puts line
 	end
 }
-
+=end
 
 
 
